@@ -1,0 +1,1489 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>space portfolio</title>
+  <link id="site-favicon" rel="icon" type="image/png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/JobYu/Pix32@main/website/32.woff" as="font" type="font/woff" crossorigin />
+  <style>
+    @font-face {
+      font-family: "Pix32";
+      src:
+        url("https://cdn.jsdelivr.net/gh/JobYu/Pix32@main/website/32.woff") format("woff"),
+        url("https://raw.githubusercontent.com/JobYu/Pix32/main/website/32.woff") format("woff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #0d0b14;
+      --bg-edge: #06040f;
+      --surface: rgba(255, 255, 255, 0.04);
+      --text: #e8e6f0;
+      --muted: #8a8898;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #6eb5ff;
+      --card-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      font-family: "Pix32", "Segoe UI", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: none;
+      text-rendering: geometricPrecision;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      height: clamp(52vh, 68vh, 84vh);
+      min-height: 380px;
+      overflow: visible;
+      background: transparent;
+      z-index: 2;
+    }
+
+    #spaceCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      display: block;
+      touch-action: pan-y;
+      z-index: 0;
+    }
+
+    .hero-vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 76% 24%, rgba(110, 181, 255, 0.11), rgba(110, 181, 255, 0) 49%),
+        linear-gradient(to bottom, rgba(6, 4, 15, 0) 70%, rgba(6, 4, 15, 0.32) 100%);
+      z-index: 1;
+    }
+
+    .links-section {
+      position: relative;
+      background: transparent;
+      padding: clamp(1.8rem, 5vw, 3.4rem) 1.2rem 4rem;
+      z-index: 2;
+    }
+
+    .links-wrap {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      text-align: center;
+      text-transform: lowercase;
+    }
+
+    .link-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.85rem 0.95rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+        rgba(8, 8, 18, 0.45);
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 14px 32px rgba(3, 4, 12, 0.38);
+    }
+
+    .link-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: var(--card-shadow);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+        rgba(9, 9, 20, 0.5);
+    }
+
+    .link-card:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(110, 181, 255, 0.18);
+    }
+
+    .link-icon-shell {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .link-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.98;
+    }
+
+    .link-label {
+      flex: 1;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--text);
+    }
+
+    .link-arrow {
+      width: 36px;
+      flex: 0 0 36px;
+      text-align: right;
+      font-size: 1rem;
+      color: #c1bfd2;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .links-section {
+        padding: 1.4rem 1rem 3rem;
+      }
+
+      .link-card {
+        padding: 0.78rem 0.82rem;
+      }
+
+      .link-icon-shell,
+      .link-arrow {
+        width: 32px;
+        flex-basis: 32px;
+      }
+
+      .link-icon-shell {
+        height: 32px;
+      }
+
+      .link-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .link-label {
+        font-size: 0.98rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link-card {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="hero">
+    <canvas id="spaceCanvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+  </section>
+
+  <section class="links-section">
+    <div class="links-wrap">
+      <nav aria-label="social links">
+        <ul class="link-list">
+          <li>
+            <a class="link-card" href="#" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon-shell" aria-hidden="true">
+                <img class="link-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="github logo" loading="lazy" decoding="async" width="18" height="18" />
+              </span>
+              <span class="link-label">github</span>
+              <span class="link-arrow">-&gt;</span>
+            </a>
+          </li>
+          <li>
+            <a class="link-card" href="#" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon-shell" aria-hidden="true">
+                <img class="link-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="linkedin logo" loading="lazy" decoding="async" width="18" height="18" />
+              </span>
+              <span class="link-label">linkedin</span>
+              <span class="link-arrow">-&gt;</span>
+            </a>
+          </li>
+          <li>
+            <a class="link-card" href="#" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon-shell" aria-hidden="true">
+                <img class="link-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg" alt="x logo" loading="lazy" decoding="async" width="18" height="18" />
+              </span>
+              <span class="link-label">twitter/x</span>
+              <span class="link-arrow">-&gt;</span>
+            </a>
+          </li>
+          <li>
+            <a class="link-card" href="#" target="_blank" rel="noopener noreferrer">
+              <span class="link-icon-shell" aria-hidden="true">
+                <img class="link-icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" alt="gmail logo" loading="lazy" decoding="async" width="18" height="18" />
+              </span>
+              <span class="link-label">email</span>
+              <span class="link-arrow">-&gt;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const hero = document.getElementById("hero");
+      const canvas = document.getElementById("spaceCanvas");
+      const ctx = canvas.getContext("2d");
+      const faviconLink = document.getElementById("site-favicon");
+
+      if (!ctx) {
+        return;
+      }
+
+      ctx.imageSmoothingEnabled = false;
+
+      const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+      const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+      const lowPowerMode = isCoarsePointer || isSmallScreen;
+
+      const STAR_COUNT = lowPowerMode ? 140 : 190;
+      const CROSS_COUNT = 15;
+      const GALAXY_PARTICLE_COUNT = lowPowerMode ? 260 : 440;
+      const NEBULA_CLOUD_COUNT = lowPowerMode ? 4 : 7;
+      const DEEP_BODY_COUNT = lowPowerMode ? 2 : 6;
+      const EARTH_PIXEL_SIZE = 6;
+      const MOON_PIXEL_SIZE = 4;
+      const LERP_FACTOR = 0.12;
+
+      const PLANET_LIBRARY = [
+        {
+          name: "mercury",
+          texture: "rocky",
+          baseColor: { r: 136, g: 132, b: 128 },
+          accentColor: { r: 187, g: 181, b: 173 },
+          ring: false
+        },
+        {
+          name: "venus",
+          texture: "cloudy",
+          baseColor: { r: 191, g: 157, b: 109 },
+          accentColor: { r: 231, g: 202, b: 152 },
+          ring: false
+        },
+        {
+          name: "mars",
+          texture: "rocky",
+          baseColor: { r: 168, g: 86, b: 56 },
+          accentColor: { r: 214, g: 124, b: 82 },
+          ring: false
+        },
+        {
+          name: "jupiter",
+          texture: "striped",
+          baseColor: { r: 186, g: 140, b: 101 },
+          accentColor: { r: 231, g: 201, b: 164 },
+          ring: false
+        },
+        {
+          name: "saturn",
+          texture: "striped",
+          baseColor: { r: 202, g: 178, b: 132 },
+          accentColor: { r: 238, g: 218, b: 172 },
+          ring: true,
+          ringColor: { r: 228, g: 207, b: 166 }
+        },
+        {
+          name: "uranus",
+          texture: "soft",
+          baseColor: { r: 126, g: 199, b: 211 },
+          accentColor: { r: 189, g: 237, b: 244 },
+          ring: false
+        },
+        {
+          name: "neptune",
+          texture: "storm",
+          baseColor: { r: 58, g: 99, b: 186 },
+          accentColor: { r: 113, g: 153, b: 233 },
+          ring: false
+        }
+      ];
+
+      const motionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const state = {
+        width: 0,
+        height: 0,
+        dpr: 1,
+        time: 0,
+        lastTimestamp: 0,
+        earthRotation: Math.random() * Math.PI * 2,
+        galaxyRotation: Math.random() * Math.PI * 2,
+        interaction: 0,
+        idleSeed: Math.random() * Math.PI * 2,
+        lastFaviconUpdate: 0,
+        reducedMotion: motionMedia.matches,
+        running: false,
+        rafId: 0,
+        stars: [],
+        crosses: [],
+        nebulaClouds: [],
+        galaxyParticles: [],
+        deepBodies: [],
+        shootingStars: [],
+        pointer: {
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          speed: 0,
+          active: false,
+          lastMoveTime: 0
+        },
+        lastOrientationTime: 0,
+        parallaxTarget: { x: 0, y: 0 },
+        offsets: {
+          galaxy: { x: 0, y: 0 },
+          stars: { x: 0, y: 0 },
+          moon: { x: 0, y: 0 },
+          earth: { x: 0, y: 0 }
+        }
+      };
+
+      function random(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function lerp(current, target, factor) {
+        return current + (target - current) * factor;
+      }
+
+      function normalize(vector) {
+        const length = Math.hypot(vector.x, vector.y, vector.z) || 1;
+        return {
+          x: vector.x / length,
+          y: vector.y / length,
+          z: vector.z / length
+        };
+      }
+
+      function blendColor(a, b, amount) {
+        const t = clamp(amount, 0, 1);
+        return {
+          r: Math.round(a.r + (b.r - a.r) * t),
+          g: Math.round(a.g + (b.g - a.g) * t),
+          b: Math.round(a.b + (b.b - a.b) * t)
+        };
+      }
+
+      function shadeColor(color, factor) {
+        const f = Math.max(0, factor);
+        return {
+          r: clamp(Math.round(color.r * f), 0, 255),
+          g: clamp(Math.round(color.g * f), 0, 255),
+          b: clamp(Math.round(color.b * f), 0, 255)
+        };
+      }
+
+      function toRgb(color) {
+        return "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
+      }
+
+      function createStars() {
+        state.stars = Array.from({ length: STAR_COUNT }, () => {
+          const depth = random(0.55, 1.95);
+          return {
+            x: random(-state.width * 0.2, state.width * 1.2),
+            y: random(-state.height * 0.2, state.height * 1.2),
+            depth,
+            radius: random(0.3, 2) * (0.72 + depth * 0.22),
+            driftX: random(-10, 10),
+            driftY: random(-8, 8),
+            twinkleSpeed: random(0.8, 2.9),
+            twinklePhase: random(0, Math.PI * 2),
+            baseOpacity: random(0.28, 0.95)
+          };
+        });
+      }
+
+      function createCrosses() {
+        state.crosses = Array.from({ length: CROSS_COUNT }, () => ({
+          x: random(state.width * 0.04, state.width * 0.96),
+          y: random(state.height * 0.06, state.height * 0.94),
+          arm: Math.round(random(2, 5))
+        }));
+      }
+
+      function createNebulaClouds() {
+        const colorPalette = [
+          { r: 110, g: 181, b: 255 },
+          { r: 132, g: 104, b: 230 },
+          { r: 155, g: 120, b: 250 },
+          { r: 88, g: 152, b: 230 },
+          { r: 86, g: 122, b: 255 }
+        ];
+
+        const maxRadius = Math.max(state.width, state.height);
+        state.nebulaClouds = Array.from({ length: NEBULA_CLOUD_COUNT }, () => {
+          const color = colorPalette[Math.floor(random(0, colorPalette.length))];
+          return {
+            x: random(-state.width * 0.16, state.width * 1.16),
+            y: random(state.height * 0.02, state.height * 0.98),
+            radius: random(maxRadius * 0.2, maxRadius * 0.5),
+            alpha: random(0.045, 0.13),
+            speed: random(0.07, 0.24),
+            wobble: random(26, 78),
+            phase: random(0, Math.PI * 2),
+            color
+          };
+        });
+      }
+
+      function createGalaxyParticles() {
+        const maxRadius = Math.hypot(state.width, state.height) * 0.82;
+        const armCount = 6;
+        state.galaxyParticles = Array.from({ length: GALAXY_PARTICLE_COUNT }, (_, index) => {
+          const arm = index % armCount;
+          const armBase = (Math.PI * 2 * arm) / armCount;
+          const radius = Math.pow(Math.random(), 0.47) * maxRadius;
+          const coreBoost = 1 - radius / maxRadius;
+          const angle = armBase + radius * 0.02 + random(-0.65, 0.65);
+          const warmTint = Math.random() < 0.2;
+
+          return {
+            radius,
+            angle,
+            coreBoost,
+            stretch: random(0.42, 0.8),
+            depth: random(0.35, 1.5),
+            orbit: random(0.08, 0.22),
+            size: random(0.55, 2.45),
+            alpha: random(0.06, 0.32) + coreBoost * 0.22,
+            twinkleSpeed: random(0.9, 3.4),
+            twinklePhase: random(0, Math.PI * 2),
+            hue: warmTint ? random(278, 305) : random(198, 226),
+            saturation: warmTint ? random(52, 70) : random(64, 88),
+            lightness: warmTint ? random(64, 76) : random(62, 84)
+          };
+        });
+      }
+
+      function createDeepBodies() {
+        const maxRadius = Math.max(state.width, state.height);
+        const shuffledPlanets = PLANET_LIBRARY.slice().sort(() => Math.random() - 0.5);
+
+        state.deepBodies = Array.from({ length: DEEP_BODY_COUNT }, (_, index) => {
+          const planet = shuffledPlanets[index % shuffledPlanets.length];
+          const isGasGiant = planet.texture === "striped";
+          const minRadius = isGasGiant ? 0.024 : 0.015;
+          const maxPlanetRadius = isGasGiant ? 0.052 : 0.036;
+
+          return {
+            name: planet.name,
+            texture: planet.texture,
+            x: random(state.width * 0.08, state.width * 0.92),
+            y: random(state.height * 0.1, state.height * 0.9),
+            radius: random(maxRadius * minRadius, maxRadius * maxPlanetRadius),
+            pixel: Math.round(random(lowPowerMode ? 3 : 2, lowPowerMode ? 5 : 4)),
+            depth: random(0.35, 1.25),
+            drift: random(0.08, 0.24),
+            phase: random(0, Math.PI * 2),
+            ring: planet.ring || (planet.texture === "soft" && Math.random() < 0.2),
+            ringColor: planet.ringColor || planet.accentColor,
+            baseColor: planet.baseColor,
+            accentColor: planet.accentColor
+          };
+        });
+      }
+
+      function resizeCanvas() {
+        state.width = Math.max(1, Math.floor(window.innerWidth));
+        state.height = Math.max(1, Math.floor(window.innerHeight));
+        state.dpr = Math.min(window.devicePixelRatio || 1, lowPowerMode ? 1.3 : 1.75);
+
+        canvas.width = Math.floor(state.width * state.dpr);
+        canvas.height = Math.floor(state.height * state.dpr);
+        canvas.style.width = state.width + "px";
+        canvas.style.height = state.height + "px";
+        ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
+
+        createStars();
+        createCrosses();
+        createNebulaClouds();
+        createGalaxyParticles();
+        createDeepBodies();
+
+        if (!state.pointer.active) {
+          state.pointer.x = state.width * 0.5;
+          state.pointer.y = state.height * 0.5;
+        }
+
+        if (state.reducedMotion) {
+          drawScene();
+        }
+      }
+
+      function updateFavicon(rotation) {
+        if (!faviconLink) {
+          return;
+        }
+
+        const size = 96;
+        const iconCanvas = document.createElement("canvas");
+        iconCanvas.width = size;
+        iconCanvas.height = size;
+
+        const iconCtx = iconCanvas.getContext("2d");
+        if (!iconCtx) {
+          return;
+        }
+
+        const center = size * 0.5;
+        const radius = size * 0.33;
+        const pixel = 3;
+
+        const glow = iconCtx.createRadialGradient(center, center, radius * 0.72, center, center, radius * 1.55);
+        glow.addColorStop(0, "rgba(110,181,255,0.32)");
+        glow.addColorStop(1, "rgba(110,181,255,0)");
+        iconCtx.fillStyle = glow;
+        iconCtx.beginPath();
+        iconCtx.arc(center, center, radius * 1.55, 0, Math.PI * 2);
+        iconCtx.fill();
+
+        const light = normalize({ x: 0.58, y: -0.34, z: 0.74 });
+        const cosRotation = Math.cos(rotation);
+        const sinRotation = Math.sin(rotation);
+
+        for (let py = -radius; py <= radius; py += pixel) {
+          for (let px = -radius; px <= radius; px += pixel) {
+            const nx = (px + pixel * 0.5) / radius;
+            const ny = (py + pixel * 0.5) / radius;
+            const distSq = nx * nx + ny * ny;
+
+            if (distSq > 1) {
+              continue;
+            }
+
+            const nz = Math.sqrt(1 - distSq);
+            const tx = nx * cosRotation + nz * sinRotation;
+            const tz = -nx * sinRotation + nz * cosRotation;
+            const longitude = Math.atan2(tz, tx);
+            const latitude = Math.asin(ny);
+            const polarAmount = Math.abs(latitude);
+
+            const terrain = terrainValue(longitude, latitude, rotation);
+            const cloud = cloudValue(longitude, latitude, rotation);
+
+            let baseColor;
+            if (polarAmount > 1.17) {
+              baseColor = { r: 207, g: 233, b: 252 };
+            } else if (terrain > 0.03) {
+              const richness = clamp((terrain + 0.4) * 0.95, 0, 1.2);
+              baseColor = {
+                r: 47 + Math.round(34 * richness),
+                g: 101 + Math.round(76 * richness),
+                b: 66 + Math.round(33 * richness)
+              };
+            } else {
+              const depth = clamp(Math.abs(terrain) * 1.95, 0, 1);
+              baseColor = {
+                r: 19 + Math.round(18 * depth),
+                g: 65 + Math.round(43 * depth),
+                b: 126 + Math.round(80 * depth)
+              };
+            }
+
+            if (cloud > 0.74 && polarAmount < 1.43) {
+              const cloudMix = clamp((cloud - 0.74) * 2.25 + 0.1, 0.12, 0.72);
+              baseColor = blendColor(baseColor, { r: 235, g: 244, b: 255 }, cloudMix);
+            }
+
+            const dotProduct = Math.max(0, nx * light.x + ny * light.y + nz * light.z);
+            const diffuse = 0.24 + dotProduct * 0.9;
+            const shadedColor = shadeColor(baseColor, diffuse);
+
+            iconCtx.fillStyle = toRgb(shadedColor);
+            iconCtx.fillRect(Math.round(center + px), Math.round(center + py), pixel, pixel);
+          }
+        }
+
+        faviconLink.href = iconCanvas.toDataURL("image/png");
+      }
+
+      function terrainValue(longitude, latitude, rotation) {
+        const waveA = Math.sin(longitude * 1.78 + rotation * 0.94 + 0.45);
+        const waveB = Math.sin(longitude * 3.86 - latitude * 2.52 + 1.18);
+        const waveC = Math.sin(longitude * 7.31 + latitude * 5.27 - 0.74);
+        const waveD = Math.sin((longitude + latitude) * 4.62 + 2.33);
+        const waveE = Math.sin(latitude * 6.41 - longitude * 2.08 + 0.61);
+
+        return waveA * 0.45 + waveB * 0.29 + waveC * 0.16 + waveD * 0.1 + waveE * 0.08 - 0.03;
+      }
+
+      function cloudValue(longitude, latitude, rotation) {
+        const cloudA = Math.sin(longitude * 11.4 + latitude * 7.7 + rotation * 0.36 + 1.4);
+        const cloudB = Math.sin(longitude * 16.3 - latitude * 13.1 - rotation * 0.22 + 0.25);
+        const cloudC = Math.sin((longitude - latitude) * 18.9 + 0.82);
+
+        return cloudA * 0.44 + cloudB * 0.35 + cloudC * 0.21;
+      }
+
+      function drawBackground() {
+        const radius = Math.max(state.width, state.height) * 0.9;
+        const gradient = ctx.createRadialGradient(
+          state.width * 0.5,
+          state.height * 0.45,
+          Math.min(state.width, state.height) * 0.08,
+          state.width * 0.5,
+          state.height * 0.5,
+          radius
+        );
+
+        gradient.addColorStop(0, "#0d0b14");
+        gradient.addColorStop(1, "#06040f");
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, state.width, state.height);
+
+        const bloom = ctx.createRadialGradient(
+          state.width * 0.52,
+          state.height * 0.5,
+          Math.min(state.width, state.height) * 0.06,
+          state.width * 0.52,
+          state.height * 0.5,
+          Math.max(state.width, state.height) * 0.92
+        );
+        bloom.addColorStop(0, "rgba(74,102,220,0.08)");
+        bloom.addColorStop(1, "rgba(74,102,220,0)");
+        ctx.fillStyle = bloom;
+        ctx.fillRect(0, 0, state.width, state.height);
+      }
+
+      function drawNebula() {
+        const offset = state.offsets.galaxy;
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+
+        for (const cloud of state.nebulaClouds) {
+          const driftX = Math.sin(state.time * cloud.speed + cloud.phase) * cloud.wobble;
+          const driftY = Math.cos(state.time * cloud.speed * 0.8 + cloud.phase * 0.6) * cloud.wobble * 0.55;
+          const x = cloud.x + driftX + offset.x * 0.82;
+          const y = cloud.y + driftY + offset.y * 0.82;
+
+          const gradient = ctx.createRadialGradient(x, y, cloud.radius * 0.1, x, y, cloud.radius);
+          gradient.addColorStop(0, "rgba(" + cloud.color.r + "," + cloud.color.g + "," + cloud.color.b + "," + cloud.alpha.toFixed(3) + ")");
+          gradient.addColorStop(1, "rgba(" + cloud.color.r + "," + cloud.color.g + "," + cloud.color.b + ",0)");
+
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(x, y, cloud.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      function drawGalaxy() {
+        const offset = state.offsets.galaxy;
+        const centerX = state.width * 0.5 + offset.x;
+        const centerY = state.height * 0.5 + offset.y;
+        const maxRadius = Math.hypot(state.width, state.height) * 0.8;
+
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+
+        const halo = ctx.createRadialGradient(centerX, centerY, maxRadius * 0.02, centerX, centerY, maxRadius);
+        halo.addColorStop(0, "rgba(206,232,255,0.38)");
+        halo.addColorStop(0.35, "rgba(148,176,255,0.22)");
+        halo.addColorStop(0.78, "rgba(126,106,226,0.12)");
+        halo.addColorStop(1, "rgba(126,106,226,0)");
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, maxRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(Math.sin(state.time * 0.16) * 0.23 + state.galaxyRotation * 0.05);
+        ctx.scale(1.55, 0.36);
+        const lane = ctx.createRadialGradient(0, 0, maxRadius * 0.03, 0, 0, maxRadius * 0.98);
+        lane.addColorStop(0, "rgba(222,238,255,0.26)");
+        lane.addColorStop(0.45, "rgba(160,188,255,0.16)");
+        lane.addColorStop(1, "rgba(150,160,255,0)");
+        ctx.fillStyle = lane;
+        ctx.beginPath();
+        ctx.arc(0, 0, maxRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(-Math.sin(state.time * 0.19 + 1.7) * 0.19 + state.galaxyRotation * 0.04 + 1.12);
+        ctx.scale(1.3, 0.42);
+        const laneTwo = ctx.createRadialGradient(0, 0, maxRadius * 0.05, 0, 0, maxRadius * 0.92);
+        laneTwo.addColorStop(0, "rgba(212,226,255,0.2)");
+        laneTwo.addColorStop(0.48, "rgba(148,166,255,0.12)");
+        laneTwo.addColorStop(1, "rgba(148,166,255,0)");
+        ctx.fillStyle = laneTwo;
+        ctx.beginPath();
+        ctx.arc(0, 0, maxRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        for (const particle of state.galaxyParticles) {
+          const spin = state.galaxyRotation * (0.18 + particle.depth * 0.11) + state.time * particle.orbit;
+          const theta = particle.angle + spin;
+          let px = centerX + Math.cos(theta) * particle.radius * 1.32 + offset.x * particle.depth * 0.56;
+          let py = centerY + Math.sin(theta) * particle.radius * particle.stretch + offset.y * particle.depth * 0.56;
+
+          if (state.pointer.active && !state.reducedMotion) {
+            const dx = state.pointer.x - px;
+            const dy = state.pointer.y - py;
+            const distSq = dx * dx + dy * dy;
+            const influenceRadius = 180;
+            if (distSq < influenceRadius * influenceRadius) {
+              const distance = Math.sqrt(distSq) + 0.001;
+              const influence = 1 - distance / influenceRadius;
+              const swirl = influence * influence * (3.5 + state.pointer.speed * 58);
+              const pull = influence * (1.3 + state.pointer.speed * 13);
+              px += (-dy / distance) * swirl + (dx / distance) * pull;
+              py += (dx / distance) * swirl + (dy / distance) * pull;
+            }
+          }
+
+          if (px < -8 || px > state.width + 8 || py < -8 || py > state.height + 8) {
+            continue;
+          }
+
+          const twinkle = state.reducedMotion ? 1 : 0.55 + 0.45 * Math.sin(state.time * particle.twinkleSpeed + particle.twinklePhase);
+          const alpha = clamp(particle.alpha * twinkle * (0.88 + state.interaction * 0.36), 0.02, 0.72);
+          const radius = particle.size * (0.76 + state.interaction * 0.58 + particle.coreBoost * 0.35);
+
+          ctx.fillStyle = "hsla(" + particle.hue.toFixed(1) + ", " + particle.saturation.toFixed(1) + "%, " + particle.lightness.toFixed(1) + "%, " + alpha.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.arc(px, py, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      function drawDeepBodies() {
+        const offset = state.offsets.galaxy;
+        const light = normalize({ x: 0.52, y: -0.28, z: 0.8 });
+
+        for (const body of state.deepBodies) {
+          const centerX =
+            body.x +
+            Math.sin(state.time * body.drift + body.phase) * (22 + body.radius * 0.5) +
+            offset.x * body.depth;
+          const centerY =
+            body.y +
+            Math.cos(state.time * body.drift * 0.9 + body.phase * 0.7) * (14 + body.radius * 0.35) +
+            offset.y * body.depth;
+
+          if (
+            centerX < -body.radius * 2 ||
+            centerX > state.width + body.radius * 2 ||
+            centerY < -body.radius * 2 ||
+            centerY > state.height + body.radius * 2
+          ) {
+            continue;
+          }
+
+          const glow = ctx.createRadialGradient(centerX, centerY, body.radius * 0.45, centerX, centerY, body.radius * 1.8);
+          glow.addColorStop(0, "rgba(180,208,255,0.08)");
+          glow.addColorStop(1, "rgba(180,208,255,0)");
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, body.radius * 1.8, 0, Math.PI * 2);
+          ctx.fill();
+
+          for (let py = -body.radius; py <= body.radius; py += body.pixel) {
+            for (let px = -body.radius; px <= body.radius; px += body.pixel) {
+              const nx = (px + body.pixel * 0.5) / body.radius;
+              const ny = (py + body.pixel * 0.5) / body.radius;
+              const distSq = nx * nx + ny * ny;
+
+              if (distSq > 1) {
+                continue;
+              }
+
+              const nz = Math.sqrt(1 - distSq);
+              const noise =
+                Math.sin(nx * 5.8 + body.phase) * 0.35 +
+                Math.sin((nx - ny) * 7.2 + body.phase * 0.4) * 0.3 +
+                Math.sin(ny * 6.4 - body.phase * 0.35) * 0.35;
+
+              let tintAmount;
+              if (body.texture === "striped") {
+                const stripes = 0.5 + 0.5 * Math.sin((ny + body.phase * 0.15 + state.time * 0.35) * 11);
+                tintAmount = clamp(stripes * 0.72 + noise * 0.1, 0.06, 0.95);
+              } else if (body.texture === "cloudy") {
+                const cloudy = 0.5 + 0.5 * Math.sin((nx + ny * 0.8 + body.phase * 0.2) * 5.4);
+                tintAmount = clamp(cloudy * 0.42 + (noise + 1) * 0.2, 0.08, 0.86);
+              } else if (body.texture === "storm") {
+                const bands = 0.5 + 0.5 * Math.sin((ny + body.phase * 0.2) * 8.3);
+                tintAmount = clamp(bands * 0.62 + (noise + 1) * 0.18, 0.05, 0.86);
+              } else if (body.texture === "soft") {
+                tintAmount = clamp((noise + 1) * 0.18, 0.08, 0.55);
+              } else {
+                tintAmount = clamp((noise + 1) * 0.28, 0, 0.68);
+              }
+
+              let baseColor = blendColor(body.baseColor, body.accentColor, tintAmount);
+              if (body.texture === "storm") {
+                const stormMask = Math.exp(-(((nx + 0.24) * (nx + 0.24)) * 18 + ((ny - 0.18) * (ny - 0.18)) * 42));
+                baseColor = blendColor(baseColor, { r: 226, g: 236, b: 255 }, clamp(stormMask * 0.8, 0, 0.8));
+              }
+
+              const dot = Math.max(0, nx * light.x + ny * light.y + nz * light.z);
+              const shaded = shadeColor(baseColor, 0.34 + dot * 0.86);
+
+              ctx.fillStyle = toRgb(shaded);
+              ctx.fillRect(Math.round(centerX + px), Math.round(centerY + py), body.pixel, body.pixel);
+            }
+          }
+
+          if (body.ring) {
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(state.time * 0.14 + body.phase);
+            ctx.scale(1, 0.34);
+            ctx.strokeStyle = "rgba(" + body.ringColor.r + "," + body.ringColor.g + "," + body.ringColor.b + ",0.36)";
+            ctx.lineWidth = clamp(body.pixel * 0.55, 1, 2);
+            ctx.beginPath();
+            ctx.arc(0, 0, body.radius * 1.5, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+
+      function drawStars() {
+        const starOffset = state.offsets.stars;
+
+        for (const star of state.stars) {
+          let x = star.x + starOffset.x * star.depth;
+          let y = star.y + starOffset.y * star.depth;
+
+          if (state.pointer.active && !state.reducedMotion) {
+            const dx = state.pointer.x - x;
+            const dy = state.pointer.y - y;
+            const distSq = dx * dx + dy * dy;
+            const influenceRadius = 148;
+            if (distSq < influenceRadius * influenceRadius) {
+              const distance = Math.sqrt(distSq) + 0.001;
+              const influence = 1 - distance / influenceRadius;
+              const pull = influence * influence * (0.9 + state.pointer.speed * 22) * star.depth;
+              x += (dx / distance) * pull;
+              y += (dy / distance) * pull;
+            }
+          }
+
+          if (x < -6 || x > state.width + 6 || y < -6 || y > state.height + 6) {
+            continue;
+          }
+
+          let opacity = star.baseOpacity;
+          if (!state.reducedMotion) {
+            const flicker = 0.5 + 0.5 * Math.sin(state.time * star.twinkleSpeed + star.twinklePhase + state.interaction * 2.6);
+            opacity = clamp(star.baseOpacity * flicker, 0.08, 1);
+          }
+
+          const radius = star.radius * (1 + clamp(state.pointer.speed * 0.28, 0, 0.34));
+
+          ctx.fillStyle = "rgba(255,255,255," + opacity.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = "rgba(255,255,255,0.35)";
+        for (const cross of state.crosses) {
+          const x = Math.round(cross.x + starOffset.x * 1.35);
+          const y = Math.round(cross.y + starOffset.y * 1.35);
+          const arm = cross.arm;
+          ctx.fillRect(x - arm, y, arm * 2 + 1, 1);
+          ctx.fillRect(x, y - arm, 1, arm * 2 + 1);
+        }
+      }
+
+      function drawShootingStars() {
+        if (!state.shootingStars.length) {
+          return;
+        }
+
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+
+        for (const streak of state.shootingStars) {
+          const lifeT = clamp(streak.life / streak.maxLife, 0, 1);
+          const alpha = (1 - lifeT) * 0.95;
+
+          const speedLength = Math.hypot(streak.vx, streak.vy) || 1;
+          const dx = streak.vx / speedLength;
+          const dy = streak.vy / speedLength;
+          const tailX = streak.x - dx * streak.length;
+          const tailY = streak.y - dy * streak.length;
+
+          const gradient = ctx.createLinearGradient(streak.x, streak.y, tailX, tailY);
+          gradient.addColorStop(0, "rgba(204,231,255," + alpha.toFixed(3) + ")");
+          gradient.addColorStop(1, "rgba(204,231,255,0)");
+
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = streak.width;
+          ctx.beginPath();
+          ctx.moveTo(streak.x, streak.y);
+          ctx.lineTo(tailX, tailY);
+          ctx.stroke();
+
+          ctx.fillStyle = "rgba(233,245,255," + alpha.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.arc(streak.x, streak.y, streak.width * 0.95, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+
+      function drawMoon(centerX, centerY, radius) {
+        const glow = ctx.createRadialGradient(centerX, centerY, radius * 0.7, centerX, centerY, radius * 1.32);
+        glow.addColorStop(0, "rgba(255,255,255,0.05)");
+        glow.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius * 1.32, 0, Math.PI * 2);
+        ctx.fill();
+
+        const light = normalize({ x: 0.57, y: -0.2, z: 0.79 });
+
+        for (let py = -radius; py <= radius; py += MOON_PIXEL_SIZE) {
+          for (let px = -radius; px <= radius; px += MOON_PIXEL_SIZE) {
+            const nx = (px + MOON_PIXEL_SIZE * 0.5) / radius;
+            const ny = (py + MOON_PIXEL_SIZE * 0.5) / radius;
+            const distSq = nx * nx + ny * ny;
+
+            if (distSq > 1) {
+              continue;
+            }
+
+            const nz = Math.sqrt(1 - distSq);
+            const craterNoise =
+              Math.sin(nx * 8.4 + ny * 9.6 + 0.9) * 0.44 +
+              Math.sin(nx * 13.1 - ny * 11.7 - 0.2) * 0.34 +
+              Math.sin((nx + ny) * 19.5 + 1.7) * 0.22;
+
+            const baseTone = 144 + craterNoise * 18;
+            let baseColor = {
+              r: clamp(Math.round(baseTone + 2), 70, 220),
+              g: clamp(Math.round(baseTone - 2), 70, 220),
+              b: clamp(Math.round(baseTone - 9), 70, 220)
+            };
+
+            if (craterNoise > 0.5) {
+              baseColor = shadeColor(baseColor, 0.86);
+            }
+
+            const dot = Math.max(0, nx * light.x + ny * light.y + nz * light.z);
+            const lighting = 0.24 + dot * 0.88;
+            const shaded = shadeColor(baseColor, lighting);
+
+            ctx.fillStyle = toRgb(shaded);
+            ctx.fillRect(Math.round(centerX + px), Math.round(centerY + py), MOON_PIXEL_SIZE, MOON_PIXEL_SIZE);
+          }
+        }
+      }
+
+      function drawEarth(centerX, centerY, radius, rotation) {
+        const atmosphere = ctx.createRadialGradient(centerX, centerY, radius * 0.84, centerX, centerY, radius * 1.58);
+        atmosphere.addColorStop(0, "rgba(110,181,255,0.2)");
+        atmosphere.addColorStop(0.55, "rgba(110,181,255,0.13)");
+        atmosphere.addColorStop(1, "rgba(110,181,255,0)");
+
+        ctx.fillStyle = atmosphere;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius * 1.58, 0, Math.PI * 2);
+        ctx.fill();
+
+        const light = normalize({ x: 0.58, y: -0.34, z: 0.74 });
+        const cosRotation = Math.cos(rotation);
+        const sinRotation = Math.sin(rotation);
+
+        for (let py = -radius; py <= radius; py += EARTH_PIXEL_SIZE) {
+          for (let px = -radius; px <= radius; px += EARTH_PIXEL_SIZE) {
+            const nx = (px + EARTH_PIXEL_SIZE * 0.5) / radius;
+            const ny = (py + EARTH_PIXEL_SIZE * 0.5) / radius;
+            const distSq = nx * nx + ny * ny;
+
+            if (distSq > 1) {
+              continue;
+            }
+
+            const nz = Math.sqrt(1 - distSq);
+
+            const tx = nx * cosRotation + nz * sinRotation;
+            const tz = -nx * sinRotation + nz * cosRotation;
+            const longitude = Math.atan2(tz, tx);
+            const latitude = Math.asin(ny);
+            const polarAmount = Math.abs(latitude);
+
+            const terrain = terrainValue(longitude, latitude, rotation);
+            const cloud = cloudValue(longitude, latitude, rotation);
+
+            let baseColor;
+            if (polarAmount > 1.17) {
+              baseColor = { r: 207, g: 233, b: 252 };
+            } else if (terrain > 0.03) {
+              const richness = clamp((terrain + 0.4) * 0.95, 0, 1.2);
+              baseColor = {
+                r: 47 + Math.round(34 * richness),
+                g: 101 + Math.round(76 * richness),
+                b: 66 + Math.round(33 * richness)
+              };
+            } else {
+              const depth = clamp(Math.abs(terrain) * 1.95, 0, 1);
+              baseColor = {
+                r: 19 + Math.round(18 * depth),
+                g: 65 + Math.round(43 * depth),
+                b: 126 + Math.round(80 * depth)
+              };
+            }
+
+            if (cloud > 0.74 && polarAmount < 1.43) {
+              const cloudMix = clamp((cloud - 0.74) * 2.25 + 0.1, 0.12, 0.72);
+              baseColor = blendColor(baseColor, { r: 235, g: 244, b: 255 }, cloudMix);
+            }
+
+            const dotProduct = Math.max(0, nx * light.x + ny * light.y + nz * light.z);
+            const diffuse = 0.23 + dotProduct * 0.91;
+            const rim = Math.pow(1 - nz, 2.4) * 0.24;
+            const shadedColor = shadeColor(baseColor, diffuse + rim);
+
+            ctx.fillStyle = toRgb(shadedColor);
+            ctx.fillRect(Math.round(centerX + px), Math.round(centerY + py), EARTH_PIXEL_SIZE, EARTH_PIXEL_SIZE);
+          }
+        }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius + EARTH_PIXEL_SIZE * 0.28, 0, Math.PI * 2);
+        ctx.clip();
+
+        const shadowGradient = ctx.createLinearGradient(
+          centerX + radius * 0.65,
+          centerY - radius * 0.28,
+          centerX - radius * 1.15,
+          centerY + radius * 0.42
+        );
+        shadowGradient.addColorStop(0, "rgba(0,0,0,0)");
+        shadowGradient.addColorStop(1, "rgba(0,0,0,0.23)");
+        ctx.fillStyle = shadowGradient;
+        ctx.fillRect(centerX - radius * 1.5, centerY - radius * 1.5, radius * 3, radius * 3);
+        ctx.restore();
+      }
+
+      function updateParallax() {
+        const now = performance.now();
+        const orientationRecent = isCoarsePointer && now - state.lastOrientationTime < 450;
+        const hasInput = state.pointer.active || orientationRecent;
+
+        const inertialX = clamp(state.pointer.vx * 120, -state.width * 0.18, state.width * 0.18);
+        const inertialY = clamp(state.pointer.vy * 120, -state.height * 0.18, state.height * 0.18);
+        let targetX;
+        let targetY;
+
+        if (hasInput) {
+          targetX = state.parallaxTarget.x + inertialX;
+          targetY = state.parallaxTarget.y + inertialY;
+        } else {
+          targetX = Math.sin(state.time * 0.31 + state.idleSeed) * state.width * 0.14;
+          targetY = Math.cos(state.time * 0.23 + state.idleSeed * 1.7) * state.height * 0.1;
+          state.parallaxTarget.x = lerp(state.parallaxTarget.x, targetX, 0.02);
+          state.parallaxTarget.y = lerp(state.parallaxTarget.y, targetY, 0.02);
+        }
+
+        state.offsets.galaxy.x = lerp(state.offsets.galaxy.x, targetX * 0.012, LERP_FACTOR);
+        state.offsets.galaxy.y = lerp(state.offsets.galaxy.y, targetY * 0.012, LERP_FACTOR);
+
+        state.offsets.stars.x = lerp(state.offsets.stars.x, targetX * 0.068, LERP_FACTOR);
+        state.offsets.stars.y = lerp(state.offsets.stars.y, targetY * 0.068, LERP_FACTOR);
+
+        state.offsets.moon.x = lerp(state.offsets.moon.x, targetX * 0.14, LERP_FACTOR);
+        state.offsets.moon.y = lerp(state.offsets.moon.y, targetY * 0.14, LERP_FACTOR);
+
+        state.offsets.earth.x = lerp(state.offsets.earth.x, targetX * 0.22, LERP_FACTOR);
+        state.offsets.earth.y = lerp(state.offsets.earth.y, targetY * 0.22, LERP_FACTOR);
+      }
+
+      function updateStars(deltaSeconds) {
+        const paddingX = state.width * 0.2;
+        const paddingY = state.height * 0.2;
+        const speedBoost = 1 + state.interaction * 1.8 + clamp(state.pointer.speed * 2.2, 0, 2.8);
+
+        for (const star of state.stars) {
+          const wave = Math.sin(state.time * 0.45 + star.twinklePhase) * 2.3;
+          star.x += (star.driftX * star.depth + wave) * deltaSeconds * speedBoost;
+          star.y += (star.driftY * star.depth + wave * 0.45) * deltaSeconds * speedBoost;
+
+          if (star.x < -paddingX) {
+            star.x = state.width + paddingX;
+          } else if (star.x > state.width + paddingX) {
+            star.x = -paddingX;
+          }
+
+          if (star.y < -paddingY) {
+            star.y = state.height + paddingY;
+          } else if (star.y > state.height + paddingY) {
+            star.y = -paddingY;
+          }
+        }
+      }
+
+      function spawnShootingStar() {
+        const angle = random(0.45, 1.12);
+        const speed = random(520, 920);
+        state.shootingStars.push({
+          x: random(-state.width * 0.2, state.width * 0.8),
+          y: random(-state.height * 0.28, state.height * 0.42),
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          width: random(1.1, 2.2),
+          length: random(72, 164),
+          life: 0,
+          maxLife: random(0.42, 0.92)
+        });
+      }
+
+      function updateShootingStars(deltaSeconds) {
+        if (!state.reducedMotion && state.shootingStars.length < (lowPowerMode ? 3 : 5)) {
+          const spawnChance = deltaSeconds * (0.34 + state.interaction * 0.96 + clamp(state.pointer.speed * 0.8, 0, 0.7));
+          if (Math.random() < spawnChance) {
+            spawnShootingStar();
+          }
+        }
+
+        for (let i = state.shootingStars.length - 1; i >= 0; i -= 1) {
+          const streak = state.shootingStars[i];
+          streak.life += deltaSeconds;
+          streak.x += streak.vx * deltaSeconds * (1 + state.interaction * 0.55 + state.pointer.speed * 0.5);
+          streak.y += streak.vy * deltaSeconds * (1 + state.interaction * 0.55 + state.pointer.speed * 0.5);
+
+          if (
+            streak.life > streak.maxLife ||
+            streak.x > state.width + streak.length ||
+            streak.y > state.height + streak.length
+          ) {
+            state.shootingStars.splice(i, 1);
+          }
+        }
+      }
+
+      function updatePointerDecay(deltaSeconds) {
+        const velocityDecay = clamp(deltaSeconds * 7, 0.07, 0.33);
+        const speedDecay = clamp(deltaSeconds * 5.5, 0.06, 0.28);
+        state.pointer.vx = lerp(state.pointer.vx, 0, velocityDecay);
+        state.pointer.vy = lerp(state.pointer.vy, 0, velocityDecay);
+        state.pointer.speed = lerp(state.pointer.speed, 0, speedDecay);
+      }
+
+      function drawScene() {
+        drawBackground();
+        drawNebula();
+        drawGalaxy();
+        drawDeepBodies();
+        drawStars();
+        drawShootingStars();
+
+        const earthRadius = clamp(Math.min(state.width, state.height) * 0.112, 52, 86);
+        const moonRadius = clamp(earthRadius * 0.36, 18, 32);
+
+        const earthBaseX = state.width * 0.79;
+        const earthBaseY = state.height * 0.62;
+
+        const earthDriftX = Math.sin(state.time * 0.19 + state.idleSeed * 0.7) * earthRadius * 0.16;
+        const earthDriftY = Math.cos(state.time * 0.16 + state.idleSeed * 1.3) * earthRadius * 0.12;
+
+        const earthX = earthBaseX + earthDriftX + state.offsets.earth.x;
+        const earthY = earthBaseY + earthDriftY + state.offsets.earth.y;
+
+        const moonX = earthBaseX - earthRadius * 1.72 + state.offsets.moon.x;
+        const moonY = earthBaseY + earthRadius * 0.62 + state.offsets.moon.y;
+
+        drawMoon(moonX, moonY, moonRadius);
+        drawEarth(earthX, earthY, earthRadius, state.earthRotation);
+      }
+
+      function frame(timestamp) {
+        if (!state.running) {
+          return;
+        }
+
+        if (!state.lastTimestamp) {
+          state.lastTimestamp = timestamp;
+        }
+
+        const deltaSeconds = Math.min(0.05, (timestamp - state.lastTimestamp) / 1000);
+        state.lastTimestamp = timestamp;
+
+        state.time += deltaSeconds;
+        updatePointerDecay(deltaSeconds);
+        state.interaction = clamp(
+          Math.hypot(state.parallaxTarget.x, state.parallaxTarget.y) / (Math.max(state.width, state.height) * 0.43) + state.pointer.speed * 0.62,
+          0,
+          1
+        );
+        state.galaxyRotation += deltaSeconds * (0.11 + state.interaction * 0.34);
+        state.earthRotation += deltaSeconds * (0.16 + state.interaction * 0.2);
+
+        updateParallax();
+        updateStars(deltaSeconds);
+        updateShootingStars(deltaSeconds);
+        drawScene();
+
+        if (timestamp - state.lastFaviconUpdate > 12000) {
+          updateFavicon(state.earthRotation);
+          state.lastFaviconUpdate = timestamp;
+        }
+
+        state.rafId = window.requestAnimationFrame(frame);
+      }
+
+      function stopAnimation() {
+        state.running = false;
+        if (state.rafId) {
+          window.cancelAnimationFrame(state.rafId);
+          state.rafId = 0;
+        }
+      }
+
+      function startAnimation() {
+        if (state.running) {
+          return;
+        }
+
+        state.running = true;
+        state.lastTimestamp = 0;
+        state.rafId = window.requestAnimationFrame(frame);
+      }
+
+      function resetInteractiveState() {
+        state.parallaxTarget.x = 0;
+        state.parallaxTarget.y = 0;
+        state.interaction = 0;
+        state.shootingStars.length = 0;
+
+        state.pointer.vx = 0;
+        state.pointer.vy = 0;
+        state.pointer.speed = 0;
+        state.pointer.active = false;
+        state.pointer.lastMoveTime = 0;
+        state.lastOrientationTime = 0;
+        state.pointer.x = state.width * 0.5;
+        state.pointer.y = state.height * 0.5;
+
+        state.offsets.galaxy.x = 0;
+        state.offsets.galaxy.y = 0;
+        state.offsets.stars.x = 0;
+        state.offsets.stars.y = 0;
+        state.offsets.moon.x = 0;
+        state.offsets.moon.y = 0;
+        state.offsets.earth.x = 0;
+        state.offsets.earth.y = 0;
+      }
+
+      function updateMotionPreference(isReduced) {
+        state.reducedMotion = isReduced;
+
+        if (state.reducedMotion) {
+          stopAnimation();
+          resetInteractiveState();
+          drawScene();
+          return;
+        }
+
+        startAnimation();
+      }
+
+      function setParallaxFromPointer(clientX, clientY) {
+        const localX = clamp(clientX, 0, state.width);
+        const localY = clamp(clientY, 0, state.height);
+        const now = performance.now();
+
+        if (state.pointer.lastMoveTime > 0) {
+          const deltaMs = Math.max(8, now - state.pointer.lastMoveTime);
+          const deltaX = localX - state.pointer.x;
+          const deltaY = localY - state.pointer.y;
+          const instantVx = deltaX / deltaMs;
+          const instantVy = deltaY / deltaMs;
+          state.pointer.vx = lerp(state.pointer.vx, instantVx, 0.42);
+          state.pointer.vy = lerp(state.pointer.vy, instantVy, 0.42);
+          state.pointer.speed = lerp(state.pointer.speed, Math.hypot(instantVx, instantVy), 0.5);
+        }
+
+        state.pointer.x = localX;
+        state.pointer.y = localY;
+        state.pointer.active = true;
+        state.pointer.lastMoveTime = now;
+
+        const centerX = state.width * 0.5;
+        const centerY = state.height * 0.5;
+
+        const offsetX = clamp(localX - centerX, -state.width * 0.5, state.width * 0.5);
+        const offsetY = clamp(localY - centerY, -state.height * 0.5, state.height * 0.5);
+
+        state.parallaxTarget.x = offsetX;
+        state.parallaxTarget.y = offsetY;
+      }
+
+      if (isCoarsePointer) {
+        window.addEventListener(
+          "deviceorientation",
+          (event) => {
+            if (state.reducedMotion) {
+              return;
+            }
+            if (typeof event.gamma !== "number" || typeof event.beta !== "number") {
+              return;
+            }
+
+            const gamma = clamp(event.gamma, -35, 35);
+            const beta = clamp(event.beta, -35, 35);
+
+            state.pointer.active = false;
+            state.lastOrientationTime = performance.now();
+            state.parallaxTarget.x = (gamma / 35) * (state.width * 0.76);
+            state.parallaxTarget.y = (beta / 35) * (state.height * 0.62);
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener(
+          "touchstart",
+          (event) => {
+            if (state.reducedMotion) {
+              return;
+            }
+            const touch = event.touches[0];
+            if (!touch) {
+              return;
+            }
+            setParallaxFromPointer(touch.clientX, touch.clientY);
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener(
+          "touchmove",
+          (event) => {
+            if (state.reducedMotion) {
+              return;
+            }
+            const touch = event.touches[0];
+            if (!touch) {
+              return;
+            }
+            setParallaxFromPointer(touch.clientX, touch.clientY);
+          },
+          { passive: true }
+        );
+
+        hero.addEventListener(
+          "touchend",
+          () => {
+            state.pointer.active = false;
+            state.parallaxTarget.x = 0;
+            state.parallaxTarget.y = 0;
+          },
+          { passive: true }
+        );
+      } else {
+        window.addEventListener("mousemove", (event) => {
+          if (state.reducedMotion) {
+            return;
+          }
+          setParallaxFromPointer(event.clientX, event.clientY);
+        });
+
+        window.addEventListener("mouseenter", (event) => {
+          if (state.reducedMotion) {
+            return;
+          }
+          setParallaxFromPointer(event.clientX, event.clientY);
+        });
+
+        window.addEventListener("mouseleave", () => {
+          state.pointer.active = false;
+          state.parallaxTarget.x = 0;
+          state.parallaxTarget.y = 0;
+        });
+      }
+
+      window.addEventListener("blur", () => {
+        state.pointer.active = false;
+      });
+
+      window.addEventListener("resize", resizeCanvas);
+
+      if (typeof motionMedia.addEventListener === "function") {
+        motionMedia.addEventListener("change", (event) => {
+          updateMotionPreference(event.matches);
+        });
+      } else if (typeof motionMedia.addListener === "function") {
+        motionMedia.addListener((event) => {
+          updateMotionPreference(event.matches);
+        });
+      }
+
+      resizeCanvas();
+      updateMotionPreference(state.reducedMotion);
+      updateFavicon(state.earthRotation);
+      state.lastFaviconUpdate = performance.now();
+
+      if (!state.reducedMotion) {
+        drawScene();
+      }
+    })();
+  </script>
+</body>
+</html>
