@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>07x.nl</title>
   <meta name="description" content="Kayra - Space Portfolio. A minimalist pixel-art space animation featuring social links and creative projects." />
+  <meta name="theme-color" content="#0d0b14" />
   <link id="site-favicon" rel="icon" type="image/png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/JobYu/Pix32@main/website/32.woff" as="font" type="font/woff" crossorigin />
@@ -219,6 +220,38 @@
         transition: none !important;
       }
     }
+
+    .corner-press-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      background: rgba(8, 8, 18, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .corner-press-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(14, 14, 28, 0.6);
+    }
+
+    @media (max-width: 480px) {
+      .corner-press-btn {
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -290,11 +323,15 @@
     </div>
   </section>
 
+  <a href="press.html" class="corner-press-btn">
+    press & contributions
+  </a>
+
   <script>
     (() => {
       const hero = document.getElementById("hero");
       const canvas = document.getElementById("spaceCanvas");
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
       const faviconLink = document.getElementById("site-favicon");
 
       if (!ctx) {

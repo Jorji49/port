@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Press & Contributions | 07x.nl</title>
+  <meta name="description" content="Press features and professional contributions." />
+  <meta name="theme-color" content="#0d0b14" />
+  <link id="site-favicon" rel="icon" type="image/png" />
+  <style>
+    :root {
+      --bg: #0d0b14;
+      --text: #e8e6f0;
+      --muted: #8a8898;
+      --accent: #6eb5ff;
+      --border: rgba(255, 255, 255, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0; width: 100%;
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: fixed; inset: 0; z-index: 0;
+      background: transparent; pointer-events: none;
+    }
+    #spaceCanvas { width: 100%; height: 100%; display: block; }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(13, 11, 20, 0.8) 100%);
+    }
+
+    .content-wrapper {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 4rem 1.5rem;
+    }
+
+    .press-container {
+      width: 100%; max-width: 650px;
+      background: rgba(10, 9, 18, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .press-title {
+      font-size: 1.4rem; font-weight: normal;
+      margin: 0 0 2.5rem 0; color: var(--text);
+      text-transform: lowercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    .press-category { margin-bottom: 2rem; }
+    .press-category:last-child { margin-bottom: 0; }
+    
+    .category-title {
+      font-size: 1rem; font-weight: normal; color: var(--accent);
+      margin: 0 0 1rem 0; text-transform: lowercase;
+    }
+
+    .item-list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .item {
+      display: flex; flex-direction: column;
+      font-size: 0.95rem; color: var(--muted);
+      text-transform: lowercase;
+    }
+
+    .item span { color: var(--text); margin-bottom: 0.2rem; }
+    .item-link {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; border-bottom: 1px solid transparent;
+      align-self: flex-start; transition: color 0.2s, border-color 0.2s;
+      word-break: break-all;
+    }
+    .item-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .press-container { padding: 1.5rem; }
+    }
+    
+    .back-nav {
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="hero" id="hero">
+    <canvas id="spaceCanvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+  </div>
+
+  <main class="content-wrapper">
+    <div class="press-container">
+      <div class="back-nav">
+        <a href="index.html" class="back-link">&larr; back to home</a>
+      </div>
+      <h1 class="press-title">press & contributions</h1>
+
+      <section class="press-category">
+        <h2 class="category-title">translations & localization</h2>
+        <ul class="item-list">
+          <li class="item">
+            <span>phonandroid samsung galaxy buds (Jorji49)</span>
+            <a class="item-link" href="https://www.phonandroid.com/samsung-va-lancer-de-nouveaux-ecouteurs-sans-fil-pas-cher-les-galaxy-buds-core.html">phonandroid.com/samsung-va-lancer-de-nouveaux-ecouteurs-sans-fil-pas-cher-les-galaxy-buds-core.html</a>
+          </li>
+          <li class="item">
+            <span>turkish lyrics translation - baby keem & kendrick lamar "good flirts"</span>
+            <a class="item-link" href="https://genius.com/Genius-turkce-ceviriler-baby-keem-good-flirts-ft-kendrick-lamar-and-momo-boyd-turkce-ceviri-lyrics">genius.com/baby-keem-good-flirts</a>
+          </li>
+          <li class="item">
+            <span>contributed lyrics for bege's new album</span>
+            <a class="item-link" href="https://www.musixmatch.com/artist/BEGE-2">https://www.musixmatch.com/artist/BEGE-2</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="press-category">
+        <h2 class="category-title">community contributions</h2>
+        <ul class="item-list">
+          <li class="item">
+            <span>official translator - ted caption hub</span>
+            <a class="item-link" href="https://ted.captionhub.com/users/95e31b768f62/profile">ted.captionhub.com/users/95e31b768f62/profile</a>
+          </li>
+          <li class="item">
+            <span>major contributor - hytale game localization</span>
+            <a class="item-link" href="https://crowdin.com/project/hytale-game/reports/top-members">crowdin.com/project/hytale-game</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="press-category">
+        <h2 class="category-title">tools & extensions</h2>
+        <ul class="item-list">
+          <li class="item">
+            <span>kama ai prompt optimizer - vs code extension</span>
+            <a class="item-link" href="https://marketplace.visualstudio.com/items?itemName=AhmetKayraKama.kama-ai-prompt-optimizer">marketplace.visualstudio.com/items?itemName=AhmetKayraKama.kama-ai-prompt-optimizer</a>
+          </li>
+          <li class="item">
+            <span>kama ai prompt optimizer - open vsx registry</span>
+            <a class="item-link" href="https://open-vsx.org/extension/AhmetKayraKama/kama-ai-prompt-optimizer">open-vsx.org/extension/AhmetKayraKama/kama-ai-prompt-optimizer</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  
+  <script>
+    (() => {
+      const hero = document.getElementById("hero");
+      const canvas = document.getElementById("spaceCanvas");
+      const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
+      
+      if (!ctx) return;
+      ctx.imageSmoothingEnabled = false;
+
+      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (isReduced) return;
+
+      const state = {
+        width: 0, height: 0, time: 0, lastTimestamp: 0,
+        stars: [],
+        interaction: 0,
+        running: false
+      };
+
+      function resize() {
+        state.width = window.innerWidth;
+        state.height = window.innerHeight;
+        canvas.width = state.width;
+        canvas.height = state.height;
+        initStars();
+      }
+
+      function initStars() {
+        state.stars = Array.from({ length: 100 }, () => ({
+          x: Math.random() * state.width,
+          y: Math.random() * state.height,
+          s: Math.random() * 1.5 + 0.5,
+          speed: Math.random() * 0.02 + 0.01
+        }));
+      }
+
+      function draw(timestamp) {
+        state.rafId = requestAnimationFrame(draw);
+        const dt = timestamp - state.lastTimestamp;
+        state.lastTimestamp = timestamp;
+        
+        ctx.fillStyle = '#0d0b14';
+        ctx.fillRect(0, 0, state.width, state.height);
+        
+        ctx.fillStyle = '#ffffff';
+        state.stars.forEach(star => {
+          star.y -= star.speed * dt;
+          if (star.y < 0) {
+            star.y = state.height;
+            star.x = Math.random() * state.width;
+          }
+          ctx.fillRect(star.x, star.y, star.s, star.s);
+        });
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      state.lastTimestamp = performance.now();
+      state.rafId = requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>
