@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>CloudScout for Steam | 07x.nl</title>
+  <meta name="description" content="CloudScout for Steam shows cloud gaming availability, Game Pass signals and Turkish language support on supported Steam and Epic store pages." />
   <meta name="theme-color" content="#0d0b14" />
   <link id="site-favicon" rel="icon" type="image/png" />
   <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
@@ -183,10 +184,14 @@
         linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
         rgba(9, 9, 20, 0.42);
       box-shadow: var(--card-shadow);
-      transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .hero-card { margin-bottom: 1rem; }
+
+    .info-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
 
     .section-grid {
       display: grid;
@@ -237,6 +242,12 @@
       align-items: center;
       justify-content: center;
       flex: 0 0 56px;
+      animation: logoFloat 5.5s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -3px, 0); }
     }
 
     .logo-badge svg {
@@ -284,7 +295,7 @@
       font-size: 0.86rem;
       color: var(--text);
       background: rgba(255, 255, 255, 0.04);
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
     }
 
     .cta-link:hover,
@@ -295,11 +306,21 @@
       outline: none;
     }
 
-    .cta-pill--soon {
-      color: #231305;
-      background: linear-gradient(145deg, rgba(255, 183, 120, 0.95), rgba(255, 145, 71, 0.92));
-      border-color: rgba(255, 193, 145, 0.95);
-      box-shadow: 0 10px 24px rgba(255, 136, 56, 0.18);
+    .cta-link--store {
+      color: #0f172a;
+      background: linear-gradient(145deg, rgba(255, 214, 170, 0.98), rgba(255, 154, 83, 0.94));
+      border-color: rgba(255, 198, 150, 0.95);
+      box-shadow: 0 10px 24px rgba(255, 136, 56, 0.22);
+      font-weight: 400;
+    }
+
+    .cta-link--store:hover,
+    .cta-link--store:focus-visible {
+      color: #0b1220;
+      border-color: rgba(255, 220, 180, 1);
+      background: linear-gradient(145deg, rgba(255, 224, 190, 1), rgba(255, 168, 100, 0.98));
+      box-shadow: 0 14px 28px rgba(255, 136, 56, 0.28);
+      transform: translate3d(0, -2px, 0);
     }
 
     .cta-link--accent {
@@ -342,6 +363,13 @@
       background: rgba(255, 255, 255, 0.03);
       color: var(--text);
       font-size: 0.88rem;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .provider-list li:hover {
+      transform: translate3d(0, -2px, 0);
+      border-color: rgba(110, 181, 255, 0.28);
+      background: rgba(110, 181, 255, 0.08);
     }
 
     .note-box {
@@ -385,8 +413,11 @@
       .lang-btn,
       .cta-link,
       .support-link,
-      .inline-link {
+      .inline-link,
+      .logo-badge,
+      .provider-list li {
         transition: none !important;
+        animation: none !important;
       }
     }
 
@@ -448,7 +479,13 @@
           </div>
           <p class="hero-summary" id="heroSummary"></p>
           <div class="cta-row">
-            <span class="cta-pill cta-pill--soon" id="chromeSoon"></span>
+            <a
+              href="https://chromewebstore.google.com/detail/cloudscout-for-steam/oollmbjppnfihcdmjdgkgekedcikbmgd"
+              class="cta-link cta-link--store"
+              id="chromeStoreLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            ></a>
             <a href="privacy/" class="cta-link cta-link--accent" id="privacyHeroLink"></a>
           </div>
         </section>
@@ -517,116 +554,120 @@
           homeLink: "← ana sayfa",
           privacyNav: "gizlilik politikası",
           heroTitle: "CloudScout for Steam",
-          heroSummary: "Steam oyun sayfalarında cloud gaming availability sinyallerini ve Türkçe dil desteğini tek panelde görün.",
-          chromeSoon: "Chrome Web Store’da görüntüle · coming soon",
+          heroSummary: "Desteklenen Steam ve Epic mağaza sayfalarında cloud gaming uygunluğunu, Game Pass sinyallerini ve Türkçe dil desteğini gösterir.",
+          chromeStore: "Chrome Web Store’da görüntüle",
           privacyHero: "Privacy Policy",
           shortTitle: "kısa ürün özeti",
-          shortBody: "CloudScout for Steam, Steam oyun sayfasındaki mevcut bilgileri tek bir panel içinde toparlayarak cloud availability sinyallerini ve Türkçe dil desteği durumunu daha hızlı okumanızı sağlar.",
+          shortBody: "CloudScout for Steam, Steam ve Epic Games Store’da gezinirken cloud gaming uygunluğunu ve Türkçe dil desteğini hızlıca kontrol etmenizi sağlar. Oyun sayfalarına kompakt bir bilgi paneli ekler; ana sayfa, arama ve liste kartlarında önizleme rozetleri gösterebilir.",
           featuresTitle: "özellikler",
           features: [
-            "Steam oyun sayfasında tek panel içinde cloud availability görünümü",
-            "Türkçe arayüz, altyazı ve ses desteği sinyalleri",
-            "Provider bazlı ayrı satırlar",
-            "Net provider availability durumları",
+            "Steam ve Epic oyun sayfalarında kompakt bilgi paneli",
+            "Ana sayfa, arama ve liste kartlarında önizleme rozetleri",
+            "NVIDIA GeForce NOW, Boosteroid, Xbox Cloud Gaming, Game Pass, Amazon Luna ve Shadow PC sinyalleri",
+            "Steam ve Epic verilerinden Türkçe arayüz, altyazı ve ses sinyalleri",
+            "Var, yok, bilinmiyor ve koşullu durum göstergeleri",
             "Ayarlar ekranı ile provider görünürlüğü ve dil tercihleri"
           ],
-          providersTitle: "desteklenen provider’lar",
+          providersTitle: "CloudScout şunları gösterir",
           providers: [
             "NVIDIA GeForce NOW",
             "Boosteroid",
             "Xbox Cloud Gaming",
-            "Xbox Game Pass Core",
-            "Xbox Game Pass Standard",
-            "Xbox Game Pass Ultimate",
+            "Xbox Game Pass Core / Standard / Ultimate",
             "Amazon Luna",
-            "Shadow PC"
+            "Shadow PC (Full Cloud PC)",
+            "Türkçe arayüz, altyazı ve ses",
+            "Var / yok / bilinmiyor / koşullu"
           ],
           howTitle: "nasıl çalışır",
           how: [
-            "Bir Steam oyun sayfası açın.",
-            "CloudScout paneli sayfanın sağ bilgi alanında görünür.",
-            "Cloud availability ve Türkçe dil desteği sinyallerini doğrudan sayfa üzerinde inceleyin."
+            "Desteklenen bir Steam veya Epic mağaza sayfası açın.",
+            "CloudScout paneli ürün sayfasında görünür; liste ve arama kartlarında rozetler belirebilir.",
+            "Cloud availability, Game Pass ve Türkçe dil desteği sinyallerini doğrudan sayfa üzerinde inceleyin."
           ],
           privacySummaryTitle: "privacy summary",
           privacySummary: [
-            "Uzantı kişisel veri toplamaz.",
-            "Uzantı analytics veya tracking kullanmaz.",
-            "Uzantı hesap gerektirmez.",
-            "Uzantı minimum-permissions yaklaşımını izler.",
-            "Uzantı yalnızca ihtiyaç duyduğu Steam verisini işler."
+            "Hesap gerektirmez.",
+            "Analitik veya takip kullanmaz.",
+            "Kişisel veri toplamaz.",
+            "İlgisiz sitelere geniş erişim istemez.",
+            "Minimum izinlerle çalışır.",
+            "Uzak JavaScript çalıştırmaz."
           ],
           permissionsTitle: "permissions summary",
           permissions: [
             "<span class='inline-code'>storage</span>: kullanıcı ayarları ve yerel cache için",
-            "<span class='inline-code'>store.steampowered.com</span> erişimi: Steam oyun sayfasını okumak ve dil desteğini doğrulamak için"
+            "Desteklenen Steam ve Epic mağaza sayfalarına erişim: ürün sayfasını okumak ve dil desteğini doğrulamak için"
           ],
           transparencyTitle: "transparency note",
-          transparencyBody: "Bu sürümde provider availability verileri uzantı paketi içinde yerel snapshot catalog olarak bulunur. Türkçe dil desteği doğrulaması resmi Steam metadata üzerinden yapılır. Veri güveni düşük olduğunda uzantı <span class='inline-code'>available</span> yerine <span class='inline-code'>unknown</span> veya <span class='inline-code'>partial</span> durumlarını gösterebilir.",
+          transparencyBody: "Sağlayıcı uygunluk verileri bu sürümde uzantıya gömülü yerel snapshot katalogları olarak gelir. Bilgi doğrulanamadığında CloudScout belirsiz veriyi kesinmiş gibi göstermek yerine <span class='inline-code'>bilinmiyor</span> veya <span class='inline-code'>koşullu</span> durumunu gösterir.",
           supportTitle: "support",
           supportLine1: "Sorular ve hata bildirimleri için: <a href='mailto:support@07x.nl' class='support-link'>support@07x.nl</a>",
           supportLine2: "Destek dönüşleri e-posta üzerinden sağlanır.",
           privacyLinkTitle: "privacy link",
           privacyLinkBody: "Uzantının işlediği veriler, yerel saklama davranışı ve ağ erişimi detayları için <a href='privacy/' class='inline-link'>CloudScout for Steam Privacy Policy</a> sayfasını görüntüleyin.",
           legalTitle: "yasal not",
-          legalBody: "CloudScout for Steam, Valve veya Steam ile bağlantılı, onaylı veya resmi bir ürün değildir. Steam adı ve ilgili içerikler yalnızca uyumluluk ve kullanım bağlamını açıklamak için referans verilmektedir."
+          legalBody: "CloudScout for Steam, Valve, Steam, Epic Games veya ilgili cloud sağlayıcılarla bağlantılı resmi bir ürün değildir. Steam, Epic ve ilgili adlar yalnızca uyumluluk ve kullanım bağlamını açıklamak için referans verilmektedir."
         },
         en: {
           docTitle: "CloudScout for Steam | 07x.nl",
           homeLink: "← back to home",
           privacyNav: "privacy policy",
           heroTitle: "CloudScout for Steam",
-          heroSummary: "See cloud gaming availability signals and Turkish language support in a single panel on Steam game pages.",
-          chromeSoon: "View on Chrome Web Store · coming soon",
+          heroSummary: "Shows cloud gaming availability, Game Pass signals and Turkish language support on supported Steam and Epic store pages.",
+          chromeStore: "View on Chrome Web Store",
           privacyHero: "Privacy Policy",
           shortTitle: "product summary",
-          shortBody: "CloudScout for Steam processes the Steam game information needed to show cloud availability signals and Turkish language support in one focused, easy-to-scan panel.",
+          shortBody: "CloudScout for Steam helps you quickly check cloud gaming availability and Turkish language support while browsing the Steam and Epic Games Store. It adds a compact info panel on product pages and can show preview badges on home, search, and list cards.",
           featuresTitle: "features",
           features: [
-            "A single-panel cloud availability view on Steam game pages",
-            "Signals for Turkish interface, subtitles, and voice support",
-            "Separate rows for each provider",
-            "Clear provider availability states",
+            "Compact info panel on Steam and Epic product pages",
+            "Preview badges on home, search, and list cards",
+            "NVIDIA GeForce NOW, Boosteroid, Xbox Cloud Gaming, Game Pass, Amazon Luna, and Shadow PC signals",
+            "Turkish interface, subtitle, and voice signals from Steam and Epic metadata",
+            "Clear available, unavailable, unknown, and conditional states",
             "Settings for provider visibility and language preferences"
           ],
-          providersTitle: "supported providers",
+          providersTitle: "what CloudScout shows",
           providers: [
             "NVIDIA GeForce NOW",
             "Boosteroid",
             "Xbox Cloud Gaming",
-            "Xbox Game Pass Core",
-            "Xbox Game Pass Standard",
-            "Xbox Game Pass Ultimate",
+            "Xbox Game Pass Core / Standard / Ultimate",
             "Amazon Luna",
-            "Shadow PC"
+            "Shadow PC (Full Cloud PC)",
+            "Turkish interface, subtitles, and voice",
+            "Available / unavailable / unknown / conditional"
           ],
           howTitle: "how it works",
           how: [
-            "Open a Steam game page.",
-            "The CloudScout panel appears in the right-side information area.",
-            "Review cloud availability and Turkish language support signals directly on the page."
+            "Open a supported Steam or Epic store page.",
+            "The CloudScout panel appears on the product page; badges may appear on list and search cards.",
+            "Review cloud availability, Game Pass, and Turkish language support signals directly on the page."
           ],
           privacySummaryTitle: "privacy summary",
           privacySummary: [
-            "The extension does not collect personal data.",
-            "The extension does not use analytics or tracking.",
-            "The extension does not require an account.",
-            "The extension follows a minimal-permissions approach.",
-            "The extension processes only the Steam data it needs."
+            "Does not require an account.",
+            "Does not use analytics or tracking.",
+            "Does not collect personal data.",
+            "Does not request broad access to unrelated sites.",
+            "Works with minimum permissions.",
+            "Does not run remote JavaScript."
           ],
           permissionsTitle: "permissions summary",
           permissions: [
             "<span class='inline-code'>storage</span>: for user settings and local cache",
-            "Access to <span class='inline-code'>store.steampowered.com</span>: to read the Steam game page and verify language support"
+            "Access to supported Steam and Epic store pages: to read product pages and verify language support"
           ],
           transparencyTitle: "transparency note",
-          transparencyBody: "In this version, provider availability data is bundled inside the extension as a local snapshot catalog. Turkish language support is verified through official Steam metadata. When data confidence is low, the extension may show <span class='inline-code'>unknown</span> or <span class='inline-code'>partial</span> instead of <span class='inline-code'>available</span>.",
+          transparencyBody: "Provider availability data comes from bundled local snapshot catalogs in this version. When information cannot be verified, CloudScout shows <span class='inline-code'>unknown</span> or <span class='inline-code'>conditional</span> instead of overstated green checks.",
           supportTitle: "support",
           supportLine1: "For questions and bug reports: <a href='mailto:support@07x.nl' class='support-link'>support@07x.nl</a>",
           supportLine2: "Support responses are provided via email.",
           privacyLinkTitle: "privacy link",
           privacyLinkBody: "For details about processed data, local storage behavior, and network access, see the <a href='privacy/' class='inline-link'>CloudScout for Steam Privacy Policy</a> page.",
           legalTitle: "legal note",
-          legalBody: "CloudScout for Steam is not affiliated with, endorsed by, or an official product of Valve or Steam. The Steam name and related content are referenced only to explain compatibility and usage context."
+          legalBody: "CloudScout for Steam is not affiliated with Valve, Steam, Epic Games, or the listed cloud providers. The Steam, Epic, and related names are referenced only to explain compatibility and usage context."
         }
       };
 
@@ -649,7 +690,7 @@
         document.getElementById("privacyNavLink").textContent = t.privacyNav;
         document.getElementById("heroTitle").textContent = t.heroTitle;
         document.getElementById("heroSummary").textContent = t.heroSummary;
-        document.getElementById("chromeSoon").textContent = t.chromeSoon;
+        document.getElementById("chromeStoreLink").textContent = t.chromeStore;
         document.getElementById("privacyHeroLink").textContent = t.privacyHero;
         document.getElementById("shortTitle").textContent = t.shortTitle;
         document.getElementById("shortBody").textContent = t.shortBody;

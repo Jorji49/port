@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>CloudScout for Steam Privacy Policy | 07x.nl</title>
+  <meta name="description" content="Privacy policy for CloudScout for Steam. No account, no analytics, no personal data collection. Local snapshot catalogs and minimal permissions." />
   <meta name="theme-color" content="#0d0b14" />
   <link id="site-favicon" rel="icon" type="image/png" />
   <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
@@ -182,10 +183,14 @@
         linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
         rgba(9, 9, 20, 0.42);
       box-shadow: var(--card-shadow);
-      transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
 
     .policy-header { margin-bottom: 1rem; }
+
+    .policy-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
 
     .section-grid {
       display: grid;
@@ -236,6 +241,12 @@
       align-items: center;
       justify-content: center;
       flex: 0 0 54px;
+      animation: logoFloat 5.5s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -3px, 0); }
     }
 
     .logo-badge svg { width: 38px; height: 38px; display: block; }
@@ -301,8 +312,10 @@
       .policy-card,
       .back-link,
       .lang-btn,
-      .contact-link {
+      .contact-link,
+      .logo-badge {
         transition: none !important;
+        animation: none !important;
       }
     }
 
@@ -389,25 +402,56 @@
           productLink: "← cloudscout",
           homeLink: "ana sayfa",
           pageTitle: "CloudScout for Steam Privacy Policy",
-          lastUpdated: "Son güncelleme: 10 Temmuz 2026",
+          lastUpdated: "Son güncelleme: 17 Temmuz 2026",
           whatItDoesTitle: "what it does",
-          whatItDoesBody: "CloudScout for Steam, Steam oyun sayfalarında cloud gaming availability sinyallerini ve Türkçe dil desteği bilgilerini göstermek için geliştirilmiş bir tarayıcı uzantısıdır.",
+          whatItDoesBody: "CloudScout for Steam, desteklenen Steam ve Epic Games Store sayfalarında cloud gaming uygunluğu, Game Pass sinyalleri ve Türkçe dil desteği bilgilerini göstermek için geliştirilmiş bir tarayıcı uzantısıdır.",
           processedDataTitle: "what data is processed",
-          processedData: ["Steam App ID", "oyun başlığı", "geliştirici ve yayıncı metni (varsa)", "Steam dil desteği bilgileri", "kullanıcı ayarları", "yerel cache verileri"],
+          processedData: [
+            "Steam / Epic ürün kimlikleri (App ID vb.)",
+            "oyun başlığı",
+            "geliştirici ve yayıncı metni (varsa)",
+            "Steam ve Epic dil desteği bilgileri",
+            "kullanıcı ayarları",
+            "yerel cache / snapshot catalog verileri"
+          ],
           whyProcessedTitle: "why it is processed",
-          whyProcessed: ["görüntülenen oyun için cloud availability sinyallerini göstermek", "Türkçe dil desteğini tespit etmek", "kullanıcı ayarlarını hatırlamak", "performans için yerel cache kullanmak"],
+          whyProcessed: [
+            "görüntülenen oyun için cloud availability ve Game Pass sinyallerini göstermek",
+            "Türkçe arayüz, altyazı ve ses desteğini tespit etmek",
+            "kullanıcı ayarlarını hatırlamak",
+            "performans için yerel cache kullanmak"
+          ],
           storedLocallyTitle: "what is stored locally",
-          storedLocally: ["kullanıcı ayarları", "provider catalog cache verileri", "popup için son analiz özeti"],
+          storedLocally: [
+            "kullanıcı ayarları",
+            "uzantıya gömülü yerel snapshot catalog verileri",
+            "popup için son analiz özeti"
+          ],
           notCollectedTitle: "what is not collected",
-          notCollected: ["kişisel kimlik bilgileri", "Steam giriş bilgileri", "ödeme bilgileri", "satın alma geçmişi", "desteklenen Steam sayfaları dışındaki gezinme geçmişi", "analytics veya tracking event verileri"],
+          notCollected: [
+            "kişisel kimlik bilgileri",
+            "Steam veya Epic giriş bilgileri",
+            "ödeme bilgileri",
+            "satın alma geçmişi",
+            "desteklenen mağaza sayfaları dışındaki gezinme geçmişi",
+            "analytics veya tracking event verileri"
+          ],
           networkAccessTitle: "network access",
-          networkAccessBody1: "Mevcut sürümde uzantı yalnızca <span class='inline-code'>store.steampowered.com</span> altındaki resmi Steam app details endpoint’ine istek yapar.",
-          networkAccessBody2: "Provider availability verileri bu sürümde uzantı paketi içinde yerel snapshot catalog olarak bulunur. Üçüncü taraf provider domain’lerinden runtime catalog fetch yapılmaz.",
+          networkAccessBody1: "Mevcut sürümde uzantı yalnızca desteklenen Steam ve Epic mağaza sayfalarındaki ürün bilgilerini okur; ilgisiz sitelere geniş erişim istemez.",
+          networkAccessBody2: "Sağlayıcı uygunluk verileri bu sürümde uzantıya gömülü yerel snapshot katalogları olarak gelir. Üçüncü taraf provider domain’lerinden runtime catalog fetch yapılmaz. Uzantı uzak JavaScript çalıştırmaz.",
           dataSharingTitle: "data sharing",
-          dataSharingBody1: "Uzantı kişisel verileri geliştirici sunucularına göndermez ve üçüncü taraflarla paylaşmaz.",
+          dataSharingBody1: "Uzantı kişisel verileri geliştirici sunucularına göndermez ve üçüncü taraflarla paylaşmaz. Hesap gerektirmez; analitik veya takip kullanmaz.",
           dataSharingBody2: "Kullanıcı isteğe bağlı olarak destek e-postasına bilgi gönderirse, yalnızca kullanıcının paylaştığı bilgiler destek amacıyla değerlendirilir.",
           securityTitle: "security",
-          security: ["Manifest V3", "No remote JavaScript", "Minimal permissions", "Local-only settings storage", "No analytics or tracking"],
+          security: [
+            "Manifest V3",
+            "No remote JavaScript",
+            "Minimal permissions",
+            "No broad access to unrelated sites",
+            "Local-only settings and snapshot catalogs",
+            "No analytics or tracking",
+            "No account required"
+          ],
           contactTitle: "contact",
           contactBody: "<a href='mailto:support@07x.nl' class='contact-link'>support@07x.nl</a>"
         },
@@ -416,25 +460,56 @@
           productLink: "← back to cloudscout",
           homeLink: "home",
           pageTitle: "CloudScout for Steam Privacy Policy",
-          lastUpdated: "Last updated: July 10, 2026",
+          lastUpdated: "Last updated: July 17, 2026",
           whatItDoesTitle: "what it does",
-          whatItDoesBody: "CloudScout for Steam is a browser extension built to show cloud gaming availability signals and Turkish language support information on Steam game pages.",
+          whatItDoesBody: "CloudScout for Steam is a browser extension built to show cloud gaming availability, Game Pass signals, and Turkish language support information on supported Steam and Epic Games Store pages.",
           processedDataTitle: "what data is processed",
-          processedData: ["Steam App ID", "game title", "developer and publisher text (if available)", "Steam language support information", "user settings", "local cache data"],
+          processedData: [
+            "Steam / Epic product identifiers (App ID, etc.)",
+            "game title",
+            "developer and publisher text (if available)",
+            "Steam and Epic language support information",
+            "user settings",
+            "local cache / snapshot catalog data"
+          ],
           whyProcessedTitle: "why it is processed",
-          whyProcessed: ["to show cloud availability signals for the viewed game", "to detect Turkish language support", "to remember user settings", "to use local cache for performance"],
+          whyProcessed: [
+            "to show cloud availability and Game Pass signals for the viewed game",
+            "to detect Turkish interface, subtitle, and voice support",
+            "to remember user settings",
+            "to use local cache for performance"
+          ],
           storedLocallyTitle: "what is stored locally",
-          storedLocally: ["user settings", "provider catalog cache data", "latest analysis summary for the popup"],
+          storedLocally: [
+            "user settings",
+            "bundled local snapshot catalog data",
+            "latest analysis summary for the popup"
+          ],
           notCollectedTitle: "what is not collected",
-          notCollected: ["personally identifiable information", "Steam login credentials", "payment information", "purchase history", "browsing history outside supported Steam pages", "analytics or tracking event data"],
+          notCollected: [
+            "personally identifiable information",
+            "Steam or Epic login credentials",
+            "payment information",
+            "purchase history",
+            "browsing history outside supported store pages",
+            "analytics or tracking event data"
+          ],
           networkAccessTitle: "network access",
-          networkAccessBody1: "In the current version, the extension only requests the official Steam app details endpoint under <span class='inline-code'>store.steampowered.com</span>.",
-          networkAccessBody2: "Provider availability data is bundled in this version as a local snapshot catalog inside the extension package. No runtime catalog fetches are made from third-party provider domains.",
+          networkAccessBody1: "In the current version, the extension only reads product information on supported Steam and Epic store pages and does not request broad access to unrelated sites.",
+          networkAccessBody2: "Provider availability data comes from bundled local snapshot catalogs inside the extension package. No runtime catalog fetches are made from third-party provider domains. The extension does not run remote JavaScript.",
           dataSharingTitle: "data sharing",
-          dataSharingBody1: "The extension does not send personal data to developer servers and does not share it with third parties.",
+          dataSharingBody1: "The extension does not send personal data to developer servers and does not share it with third parties. It does not require an account and does not use analytics or tracking.",
           dataSharingBody2: "If a user optionally sends information to the support email address, only the information shared by the user is reviewed for support purposes.",
           securityTitle: "security",
-          security: ["Manifest V3", "No remote JavaScript", "Minimal permissions", "Local-only settings storage", "No analytics or tracking"],
+          security: [
+            "Manifest V3",
+            "No remote JavaScript",
+            "Minimal permissions",
+            "No broad access to unrelated sites",
+            "Local-only settings and snapshot catalogs",
+            "No analytics or tracking",
+            "No account required"
+          ],
           contactTitle: "contact",
           contactBody: "<a href='mailto:support@07x.nl' class='contact-link'>support@07x.nl</a>"
         }
@@ -466,7 +541,7 @@
         document.getElementById("notCollectedTitle").textContent = t.notCollectedTitle;
         document.getElementById("networkAccessTitle").textContent = t.networkAccessTitle;
         document.getElementById("networkAccessBody1").innerHTML = t.networkAccessBody1;
-        document.getElementById("networkAccessBody2").textContent = t.networkAccessBody2;
+        document.getElementById("networkAccessBody2").innerHTML = t.networkAccessBody2;
         document.getElementById("dataSharingTitle").textContent = t.dataSharingTitle;
         document.getElementById("dataSharingBody1").textContent = t.dataSharingBody1;
         document.getElementById("dataSharingBody2").textContent = t.dataSharingBody2;

@@ -280,9 +280,13 @@
 
     @media (prefers-reduced-motion: reduce) {
       .links-wrap,
-      .link-card {
+      .link-card,
+      .corner-cloud-btn,
+      .corner-press-btn,
+      .link-arrow {
         animation: none !important;
         transition: none !important;
+        opacity: 1 !important;
       }
     }
 
@@ -343,11 +347,12 @@
       right: max(2rem, env(safe-area-inset-right));
       color: var(--muted);
       font-size: 0.85rem;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: inherit;
       padding: 0.5rem 0.8rem;
       border-radius: 8px;
       background: rgba(8, 8, 18, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.08);
+      text-transform: lowercase;
     }
 
     .corner-press-btn:hover,
@@ -356,6 +361,34 @@
       border-color: rgba(255, 255, 255, 0.2);
       background: rgba(14, 14, 28, 0.6);
       outline: none;
+      transform: translate3d(0, -1px, 0);
+    }
+
+    .js .corner-cloud-btn,
+    .js .corner-press-btn {
+      opacity: 0;
+      animation: cornerFade 720ms ease forwards;
+    }
+
+    .js .corner-cloud-btn {
+      animation-delay: 180ms;
+    }
+
+    .js .corner-press-btn {
+      animation-delay: 320ms;
+    }
+
+    @keyframes cornerFade {
+      to { opacity: 1; }
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translate3d(3px, 0, 0);
+      color: var(--accent);
+    }
+
+    .link-arrow {
+      transition: transform 0.22s ease, color 0.22s ease;
     }
 
     @media (max-width: 480px) {
